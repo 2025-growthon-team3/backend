@@ -1,1 +1,1 @@
-function test(){console.log()}
+function test(){console.log("rjwjrwkr") , console.log("rjwjrwkr")}
