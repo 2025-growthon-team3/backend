@@ -1,0 +1,21 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Run bapo.sh on EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connect to EC2 and run script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            /home/ubuntu/growthon/bapo.sh
