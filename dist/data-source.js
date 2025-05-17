@@ -5,12 +5,12 @@ exports.AppDataSource = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./entity/User");
 exports.AppDataSource = new typeorm_1.DataSource({
-    type: 'mysql',
-    host: '127.27.48.1', // 또는 Docker 실행 PC의 IP
-    port: 3305,
-    username: 'root',
-    password: 'rnfma!234',
-    database: 'cloudDB',
+    type: "mysql",
+    host: "mysql", // ✅ 컨테이너끼리의 내부 주소
+    port: 3306, // ✅ MySQL 기본 포트
+    username: "root",
+    password: "rnfma!234",
+    database: "cloudDB",
     synchronize: true,
     logging: false,
     entities: [User_1.User],
