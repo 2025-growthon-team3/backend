@@ -3,8 +3,8 @@ import cors from "cors";
 import authRouter from "./routes/auth.route";
 import { AppDataSource } from "./data-source";
 import { User } from "./entity/User";
-import dotenv from 'dotenv';
-dotenv.config(); 
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173" }));
@@ -19,13 +19,13 @@ async function connectWithRetry() {
       await AppDataSource.initialize();
       console.log("✅ DB 연결 성공");
 
+      app.get("/", (req, res) => {
+        res.send("✅ 서버 정상 작동 중!");
+      });
+
       app.get("/users", async (req, res) => {
         const users = await AppDataSource.getRepository(User).find();
         res.json(users);
-      });
-
-      app.get("/ping", (req, res) => {
-        res.send("pong");
       });
 
       app.post("/users", async (req, res) => {
@@ -50,6 +50,6 @@ async function connectWithRetry() {
       await new Promise((res) => setTimeout(res, RETRY_INTERVAL));
     }
   }
-} 
+}
 
 connectWithRetry();
