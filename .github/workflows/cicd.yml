@@ -1,45 +1,42 @@
-name: Deploy to EC2
+    name: Deploy to EC2
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    on:
+      push:
+        branches:
+          - main
+      pull_request:
+        branches:
+          - main
 
-jobs:
-  deploy:
-    name: Run bapo.sh on EC2
-    runs-on: ubuntu-latest
+    jobs:
+      deploy:
+        name: Run bapo.sh on EC2
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Connect to EC2 and run script
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-            # ✅ .env 파일 작성
-            cat <<EOF > /home/ubuntu/growthon/backend/.env
-            MYSQL_HOST=localhost
-            MYSQL_PORT=3306
-            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-            KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}
-            KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
+        steps:
+          - name: Connect to EC2 and run script
+            uses: appleboy/ssh-action@master
+            with:
+              host: ${{ secrets.EC2_HOST }}
+              username: ubuntu
+              key: ${{ secrets.EC2_KEY }}
+              script: |
+                # ✅ .env 파일 작성
+                cat <<EOF > /home/ubuntu/growthon/backend/.env
+                MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+                KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}
+                KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
+                JWT_SECRET=${{ secrets.JWT_SECRET }}
 
-            DEV_DB_HOST=127.0.0.1
-            DEV_DB_PORT=3305
-            REL_DB_HOST=mysql
-            REL_DB_PORT=3306
-            ENV=REL
 
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            DB_NAME=${{ secrets.DB_NAME }}
-            DB_USER=${{ secrets.DB_USER }}
-            EOF
+                REL_DB_HOST=mysql
+                REL_DB_PORT=3306
+                ENV=REL
 
-            # ✅ 배포 스크립트 실행
-            /home/ubuntu/growthon/bapo.sh
+                DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+                DB_NAME=${{ secrets.DB_NAME }}
+                DB_USER=${{ secrets.DB_USER }}
+                EOF
+
+                # ✅ 배포 스크립트 실행
+                /home/ubuntu/growthon/bapo.sh
