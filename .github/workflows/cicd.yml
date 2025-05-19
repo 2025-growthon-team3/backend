@@ -1,45 +1,41 @@
-name: Deploy to EC2
+    name: Deploy to EC2
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    on:
+      push:
+        branches:
+          - main
+      pull_request:
+        branches:
+          - main
 
-jobs:
-  deploy:
-    name: Run bapo.sh on EC2
-    runs-on: ubuntu-latest
+    jobs:
+      deploy:
+        name: Run bapo.sh on EC2
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Connect to EC2 and run script
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-            echo "🔧 .env 파일 생성 중..."
-            mkdir -p /home/ubuntu/backend
+        steps:
+          - name: Connect to EC2 and run script
+            uses: appleboy/ssh-action@master
+            with:
+              host: ${{ secrets.EC2_HOST }}
+              username: ubuntu
+              key: ${{ secrets.EC2_KEY }}
+              script: |
+                # ✅ .env 파일 작성
+                cat <<EOF > /home/ubuntu/backend/.env
+                KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}
+                KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
+                JWT_SECRET=${{ secrets.JWT_SECRET }}
 
-            cat > /home/ubuntu/backend/.env <<EOF
-MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}
-KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
-JWT_SECRET=${{ secrets.JWT_SECRET }}
 
-REL_DB_HOST=mysql
-REL_DB_PORT=3306
-ENV=REL
+                REL_DB_HOST=mysql
+                REL_DB_PORT=3306
+                ENV=REL
 
-DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-DB_NAME=${{ secrets.DB_NAME }}
-DB_USER=${{ secrets.DB_USER }}
-EOF
+                DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+                DB_NAME=${{ secrets.DB_NAME }}
+                DB_USER=${{ secrets.DB_USER }}
+                EOF
 
-            echo "✅ .env 파일 작성 완료"
-
-            echo "🚀 배포 스크립트 실행 중..."
-            /home/ubuntu/growthon/bapo.sh
+                # ✅ 배포 스크립트 실행
+                /home/ubuntu/growthon/bapo.sh
