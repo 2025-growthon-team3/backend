@@ -4,11 +4,11 @@ import { User } from "./entity/User";
 import dotenv from 'dotenv';
 dotenv.config(); 
 
-console.log(process.env.REL_DB_PORT)
+
 export const AppDataSource = new DataSource({
   type: "mysql",
-  host: process.env.REL_DB_HOST,
-  port: Number(process.env.REL_DB_PORT),
+  host: process.env.ENV === "REL" ? process.env.REL_DB_HOST : '127.0.0.1',
+  port: Number(process.env.ENV === "REL" ? process.env.REL_DB_PORT : 3305),
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -19,6 +19,3 @@ export const AppDataSource = new DataSource({
   subscribers: [],
 });
 
-
-//host: "mysql", // ✅ 컨테이너끼리의 내부 주소
-//port: 3306, // ✅ MySQL 기본 포트
