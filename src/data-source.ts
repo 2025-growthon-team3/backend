@@ -1,17 +1,24 @@
 // src/data-source.ts
 import { DataSource } from "typeorm";
 import { User } from "./entity/User";
+import dotenv from 'dotenv';
+dotenv.config(); 
+
 
 export const AppDataSource = new DataSource({
   type: "mysql",
-  host: "mysql", // ✅ 컨테이너끼리의 내부 주소
-  port: 3306, // ✅ MySQL 기본 포트
-  username: "root",
-  password: "rnfma!234",
-  database: "cloudDB",
+  host: process.env.ENV === "DEV" ? process.env.DEV_DB_HOST : process.env.REL_DB_HOST, // 또는 Docker 실행 PC의 IP
+  port: Number(process.env.ENV === "DEV" ? process.env.DEV_DB_PORT : process.env.REL_DB_PORT),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   synchronize: true,
-  logging: false,
+  logging: true,
   entities: [User],
   migrations: [],
   subscribers: [],
 });
+
+
+//host: "mysql", // ✅ 컨테이너끼리의 내부 주소
+//port: 3306, // ✅ MySQL 기본 포트
