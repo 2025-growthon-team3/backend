@@ -1,41 +1,44 @@
-    name: Deploy to EC2
+name: Deploy to EC2
 
-    on:
-      push:
-        branches:
-          - main
-      pull_request:
-        branches:
-          - main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-    jobs:
-      deploy:
-        name: Run bapo.sh on EC2
-        runs-on: ubuntu-latest
+jobs:
+  deploy:
+    name: Run bapo.sh on EC2
+    runs-on: ubuntu-latest
 
-        steps:
-          - name: Connect to EC2 and run script
-            uses: appleboy/ssh-action@master
-            with:
-              host: ${{ secrets.EC2_HOST }}
-              username: ubuntu
-              key: ${{ secrets.EC2_KEY }}
-              script: |
-                # ✅ .env 파일 작성
-                cat <<EOF > /home/ubuntu/backend/.env
-                KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}
-                KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
-                JWT_SECRET=${{ secrets.JWT_SECRET }}
+    steps:
+      - name: Connect to EC2 and run script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            # ✅ .env 파일 줄별 작성
+            touch /home/ubuntu/backend/.env
 
+            echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> /home/ubuntu/backend/.env
+            echo "KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback" >> /home/ubuntu/backend/.env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /home/ubuntu/backend/.env
 
-                REL_DB_HOST=mysql
-                REL_DB_PORT=3306
-                ENV=REL
+            echo "REL_DB_HOST=mysql" >> /home/ubuntu/backend/.env
+            echo "REL_DB_PORT=3306" >> /home/ubuntu/backend/.env
+            echo "ENV=REL" >> /home/ubuntu/backend/.env
 
-                DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-                DB_NAME=${{ secrets.DB_NAME }}
-                DB_USER=${{ secrets.DB_USER }}
-                EOF
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/ubuntu/backend/.env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> /home/ubuntu/backend/.env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> /home/ubuntu/backend/.env
 
-                # ✅ 배포 스크립트 실행
-                /home/ubuntu/growthon/bapo.sh
+            # ✅ 생성된 .env 확인 (옵션)
+            echo "🔍 생성된 .env 내용:"
+            cat /home/ubuntu/backend/.env
+
+            # ✅ 배포 스크립트 실행
+            /home/ubuntu/growthon/bapo.sh
