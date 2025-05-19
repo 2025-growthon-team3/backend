@@ -36,9 +36,10 @@ async function connectWithRetry() {
       });
 
       if (process.env.ENV !== "DEV") {
-        app.listen(3000, "0.0.0.0", () => {
+       const server = app.listen(3000, "0.0.0.0", () => {
           console.log("🚀 서버 실행 중: http://localhost:3000");
         });
+        server.keepAliveTimeout = 190_000;
       } else {
         app.listen(3001, () => {
           console.log("🚀 서버 실행 중: http://localhost:3001");
