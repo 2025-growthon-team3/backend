@@ -50,6 +50,6 @@ async function connectWithRetry() {
       await new Promise((res) => setTimeout(res, RETRY_INTERVAL));
     }
   }
-}
+} 
 
 connectWithRetry();
