@@ -24,7 +24,8 @@ jobs:
             # ✅ .env 파일 줄별 작성
             touch /home/ubuntu/backend/.env
 
-            echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> /home/ubuntu/backend/.env
+            echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" > /home/ubuntu/backend/.env
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> /home/ubuntu/backend/.env
             echo "KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback" >> /home/ubuntu/backend/.env
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /home/ubuntu/backend/.env
 

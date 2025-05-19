@@ -7,7 +7,7 @@ services:
     ports:
       - "3305:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: "your_mysql_password"
+      MYSQL_ROOT_PASSWORD: "rnfma!234"
       MYSQL_DATABASE: "cloudDB"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
