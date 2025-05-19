@@ -14,14 +14,3 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-
-  backend:
-    build: .
-    container_name: backend-container
-    ports:
-      - "3000:3000"
-    depends_on:
-      mysql:
-        condition: service_healthy
-    env_file:
-      - .env
