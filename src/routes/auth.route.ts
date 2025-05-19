@@ -20,6 +20,8 @@ type KakaoUserResponse = {
   };
 };
 
+
+
 router.get("/kakao/callback", async (req, res) => {
   const code = req.query.code as string;
 
