@@ -7,8 +7,8 @@ dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "mysql",
-  host: process.env.ENV === "DEV" ? process.env.DEV_DB_HOST : process.env.REL_DB_HOST, // 또는 Docker 실행 PC의 IP
-  port: Number(process.env.ENV === "DEV" ? process.env.DEV_DB_PORT : process.env.REL_DB_PORT),
+  host: process.env.REL_DB_HOST,
+  port: Number(process.env.REL_DB_PORT),
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
