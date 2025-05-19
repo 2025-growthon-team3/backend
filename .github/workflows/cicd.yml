@@ -22,7 +22,7 @@
               key: ${{ secrets.EC2_KEY }}
               script: |
                 # ✅ .env 파일 작성
-                cat <<EOF > /home/ubuntu/growthon/backend/.env
+                cat <<EOF > /home/ubuntu/backend/.env
                 MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
                 KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}
                 KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
