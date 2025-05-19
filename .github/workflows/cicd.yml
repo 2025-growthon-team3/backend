@@ -28,8 +28,7 @@
                 KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback
                 JWT_SECRET=${{ secrets.JWT_SECRET }}
 
-                DEV_DB_HOST=127.0.0.1
-                DEV_DB_PORT=3305
+
                 REL_DB_HOST=mysql
                 REL_DB_PORT=3306
                 ENV=REL
