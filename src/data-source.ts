@@ -4,7 +4,7 @@ import { User } from "./entity/User";
 import dotenv from 'dotenv';
 dotenv.config(); 
 
-
+console.log(process.env.REL_DB_PORT)
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: process.env.REL_DB_HOST,
