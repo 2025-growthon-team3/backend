@@ -1,7 +1,7 @@
 import express from "express";
 import axios from "axios";
 import { AppDataSource } from "../data-source";
-import { User } from "../entity/User";
+import { UserEntity } from "../entity/UserEntity";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
@@ -19,8 +19,6 @@ type KakaoUserResponse = {
     email?: string;
   };
 };
-
-
 
 router.get("/kakao/callback", async (req, res) => {
   const code = req.query.code as string;
@@ -62,16 +60,16 @@ router.get("/kakao/callback", async (req, res) => {
     const email = kakaoUser.kakao_account?.email || "";
 
     // 3. DB에서 사용자 찾거나 생성
-    let user = await AppDataSource.getRepository(User).findOneBy({ kakaoId });
+    let user = await AppDataSource.getRepository(UserEntity).findOneBy({ kakaoId });
 
     if (!user) {
-      user = AppDataSource.getRepository(User).create({
+      user = AppDataSource.getRepository(UserEntity).create({
         kakaoId,
         name: nickname,
         email,
         profileImage,
       });
-      await AppDataSource.getRepository(User).save(user);
+      await AppDataSource.getRepository(UserEntity).save(user);
     }
 
     // 4. JWT 발급

@@ -2,14 +2,19 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./routes/auth.route";
 import { AppDataSource } from "./data-source";
-import { User } from "./entity/User";
+import { UserEntity } from "./entity/UserEntity";
 import dotenv from "dotenv";
+import helpeesRouter from "./routes/helper/helpees.route";
+import institutionRouter from "./routes/institution/institution.route";
+
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173" }));
 
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/helpees", helpeesRouter);
+app.use("/api/institution", institutionRouter);
 
 async function connectWithRetry() {
   const RETRY_INTERVAL = 3000; // ms
@@ -20,18 +25,21 @@ async function connectWithRetry() {
       console.log("✅ DB 연결 성공");
 
       app.get("/", (req, res) => {
-        res.send("✅ 서버 정상 작동 중!");
+        res.status(200).send("OK");
       });
 
       app.get("/users", async (req, res) => {
-        const users = await AppDataSource.getRepository(User).find();
+        const users = await AppDataSource.getRepository(UserEntity).find();
         res.json(users);
       });
 
       app.post("/users", async (req, res) => {
         const { name, email } = req.body;
-        const user = AppDataSource.getRepository(User).create({ name, email });
-        const result = await AppDataSource.getRepository(User).save(user);
+        const user = AppDataSource.getRepository(UserEntity).create({
+          name,
+          email,
+        });
+        const result = await AppDataSource.getRepository(UserEntity).save(user);
         res.json(result);
       });
 
