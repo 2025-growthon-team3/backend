@@ -4,7 +4,7 @@ import { UserEntity } from "../../entity/UserEntity";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-import { toUserResponseDto } from "../utils/toUserResponseDTO";
+import { toUserResponseDto } from "../../utils/auth/toUserResponseDTO";
 import { sendError, sendSuccess } from "@/common/utils/responseHelper";
 
 dotenv.config();

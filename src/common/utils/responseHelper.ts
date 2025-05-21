@@ -1,6 +1,14 @@
 import { Response } from "express";
 import { ApiSuccessResponse, ApiErrorResponse } from "@/types/ApiResponse";
 
+/**
+ * 
+ * @param res 
+ * @param message 
+ * @param data 
+ * @param statusCode 
+ * @returns 
+ */
 export function sendSuccess<T>( 
   res: Response,
   message: string,
@@ -15,6 +23,14 @@ export function sendSuccess<T>(
   return res.status(statusCode).json(response);
 }
 
+/**
+ * 
+ * @param res 
+ * @param message 
+ * @param error 
+ * @param statusCode 
+ * @returns 
+ */
 export function sendError(
   res: Response,
   message: string,
