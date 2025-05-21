@@ -28,6 +28,10 @@ async function connectWithRetry() {
         res.status(200).send("OK");
       });
 
+      app.get("/healthy", (req, res) => {
+        res.send("✅ 서버 정상 작동 중!");
+      });
+
       app.get("/users", async (req, res) => {
         const users = await AppDataSource.getRepository(UserEntity).find();
         res.json(users);
@@ -44,7 +48,7 @@ async function connectWithRetry() {
       });
 
       if (process.env.ENV !== "DEV") {
-       const server = app.listen(3000, "0.0.0.0", () => {
+        const server = app.listen(3000, "0.0.0.0", () => {
           console.log("🚀 서버 실행 중: http://localhost:3000");
         });
         server.keepAliveTimeout = 190_000;
