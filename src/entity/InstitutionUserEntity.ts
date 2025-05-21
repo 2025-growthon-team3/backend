@@ -1,17 +1,13 @@
-// src/entity/InstitutionUser.ts
-import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from "typeorm";
+import { Entity, OneToOne, ManyToOne } from "typeorm";
 import { BaseEntity } from "./BaseEntity";
 import { UserEntity } from "./UserEntity";
 import { InstitutionEntity } from "./InstitutionEntity";
 
 @Entity("institution_users")
 export class InstitutionUserEntity extends BaseEntity {
-  @OneToOne(() => UserEntity, user => user.institutionUser)
-  @JoinColumn({ name: "user_id" })
+  @OneToOne(() => UserEntity, (user) => user.institutionUser)
   user!: UserEntity;
 
-  @ManyToOne(() => InstitutionEntity, wi => wi.institutionUsers)
-  @JoinColumn({ name: "institution_id" })
+  @ManyToOne(() => InstitutionEntity, (inst) => inst.institutionUsers)
   institution!: InstitutionEntity;
-
 }

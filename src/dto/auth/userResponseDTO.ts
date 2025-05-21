@@ -1,11 +1,12 @@
+//반환할객체 정의
 import {
-  IsString,
+  IsString, //스트링이여한다한
   IsEnum,
   IsBoolean,
   IsOptional,
   IsNumber,
 } from "class-validator";
-import { Type } from "class-transformer";
+import { Type } from "class-transformer"; //tye w제이슨의 스
 
 export class UserResponseDto {
   @IsNumber()

@@ -1,4 +1,3 @@
-// src/entity/Helper.ts
 import { Entity, Column, OneToOne, OneToMany } from "typeorm";
 import { BaseEntity } from "./BaseEntity";
 import { UserEntity } from "./UserEntity";
@@ -21,12 +20,6 @@ export class HelperEntity extends BaseEntity {
 
   @Column({ type: "varchar", length: 255, nullable: true })
   address?: string;
-
-  @Column({ type: "decimal", precision: 10, scale: 7, nullable: true })
-  latitude?: number;
-
-  @Column({ type: "decimal", precision: 10, scale: 7, nullable: true })
-  longitude?: number;
 
   @OneToMany(() => VolunteerApplicationEntity, (va) => va.helper)
   volunteerApplications!: VolunteerApplicationEntity[];
