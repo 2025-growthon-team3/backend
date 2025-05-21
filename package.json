@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon",
     "start": "node dist/index.js",
     "db:up": "docker-compose -f docker-compose.dev.yml up -d",
     "db:down": "docker-compose -f docker-compose.dev.yml down"
@@ -14,13 +14,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "D": "^1.0.0",
     "axios": "^1.9.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "nodemon": "^3.1.10",
     "reflect-metadata": "^0.2.2",
+    "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.23",
     "typescript": "^5.8.3",
     "yarn": "^1.22.22"

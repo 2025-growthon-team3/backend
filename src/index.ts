@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import authRouter from "./routes/auth.route";
+import authRouter from "./routes/auth/auth.route";
 import { AppDataSource } from "./data-source";
 import { UserEntity } from "./entity/UserEntity";
 import dotenv from "dotenv";
@@ -28,20 +28,15 @@ async function connectWithRetry() {
         res.status(200).send("OK");
       });
 
-      app.get("/healthy", (req, res) => {
-        res.send("✅ 서버 정상 작동 중!");
-      });
-
       app.get("/users", async (req, res) => {
         const users = await AppDataSource.getRepository(UserEntity).find();
         res.json(users);
       });
 
       app.post("/users", async (req, res) => {
-        const { name, email } = req.body;
+        const { name } = req.body;
         const user = AppDataSource.getRepository(UserEntity).create({
           name,
-          email,
         });
         const result = await AppDataSource.getRepository(UserEntity).save(user);
         res.json(result);
