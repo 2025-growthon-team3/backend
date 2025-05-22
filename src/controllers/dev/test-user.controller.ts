@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /auth/test/{userId}:
+ * /dev/test/{userId}:
  *   get:
  *     summary: 테스트용 Access Token 발급
  *     description: 테스트를 위해 지정된 userId에 대한 JWT Access Token을 발급합니다.
  *     tags:
- *       - Auth
+ *       - Dev
  *     parameters:
  *       - in: path
  *         name: userId
