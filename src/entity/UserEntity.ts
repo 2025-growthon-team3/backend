@@ -35,8 +35,3 @@ export class UserEntity extends BaseEntity {
   @OneToOne(() => InstitutionUserEntity, (iu) => iu.user)
   institutionUser?: InstitutionUserEntity;
 }
-
-//kakaoId: email만 가지고는 중복/누락 생기기에 추가
-//profileImage: 프론트앤드에서 유저의 프로필 이미지가 있으면 프론트에서 편하다고 생각
-//numllable: NOT NULL 제약 위반 방지 위해서 넣음
-//! 뜻 : 나중에 값 넣어줄께

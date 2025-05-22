@@ -8,6 +8,8 @@ import authRouter from "./routes/auth/auth.route";
 import helpeeRouter from "./routes/helpee/helpee.route";
 import institutionRouter from "./routes/institution/institution.route";
 import helperRouter from "./routes/helper/helper.route";
+import volunteerRouter from "./routes/volunteer/volunteer.route";
+
 dotenv.config();
 
 const app = express();
@@ -19,6 +21,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/helpee", helpeeRouter);
 app.use("/api/institution", institutionRouter);
 app.use("/api/helpers", helperRouter);
+app.use("/api/volunteer", volunteerRouter);
 
 async function connectWithRetry() {
   const RETRY_INTERVAL = 3000;

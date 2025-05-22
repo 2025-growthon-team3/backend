@@ -7,7 +7,6 @@ import { HelpeeEntity } from "./HelpeeEntity";
 @Entity("volunteer_applications")
 export class VolunteerApplicationEntity extends BaseEntity {
   @ManyToOne(() => HelperEntity, helper => helper.volunteerApplications)
-  
   @JoinColumn({ name: "helper_id" })
   helper!: HelperEntity;
 

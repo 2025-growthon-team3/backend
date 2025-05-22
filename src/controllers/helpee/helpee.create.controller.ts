@@ -7,6 +7,10 @@ import { sendSuccess, sendError } from "@/common/utils/responseHelper";
 export const createHelpee = async (req: Request, res: Response) => {
   const { name, age, birth, gender, institutionName, helpRequest, helpDetail } =
     req.body;
+  if (req.role !== "institution") {
+    sendError(res, "기관 권한이 없습니다.", null, 401);
+    return;
+  }
 
   try {
     const institutionRepo = AppDataSource.getRepository(InstitutionEntity);

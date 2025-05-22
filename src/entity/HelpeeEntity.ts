@@ -9,7 +9,7 @@ import { InstitutionEntity } from "./InstitutionEntity";
 export class HelpeeEntity extends BaseEntity {
   @Column({ type: "varchar", length: 50 })
   name!: string;
-  
+
   @Column({ type: "enum", enum: ["male", "female"], nullable: true })
   gender?: "male" | "female";
 
@@ -27,7 +27,7 @@ export class HelpeeEntity extends BaseEntity {
 
   @ManyToOne(() => InstitutionEntity, (inst) => inst.helpees)
   @JoinColumn({ name: "institution_id" })
-  institution!: InstitutionEntity;   
+  institution!: InstitutionEntity;
 
   @Column({ type: "datetime", nullable: true })
   helpTime?: string;

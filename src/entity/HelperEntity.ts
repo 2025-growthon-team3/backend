@@ -3,10 +3,12 @@ import { BaseEntity } from "./BaseEntity";
 import { UserEntity } from "./UserEntity";
 import { VolunteerApplicationEntity } from "./VounteerApplicationEntity";
 import { VolunteerHistoryEntity } from "./VolunteerHistoryEntity";
+import { JoinColumn } from "typeorm";
 
 @Entity("helpers")
 export class HelperEntity extends BaseEntity {
   @OneToOne(() => UserEntity, (user) => user.helper)
+  @JoinColumn({ name: "user_id" })
   user!: UserEntity;
 
   @Column({ type: "varchar", length: 50, nullable: true })
