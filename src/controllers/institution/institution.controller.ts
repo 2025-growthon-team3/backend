@@ -3,6 +3,9 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../../data-source";
 import { InstitutionEntity } from "../../entity/InstitutionEntity";
 import { sendSuccess, sendError } from "@/common/utils/responseHelper";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const createInstitution = async (req: Request, res: Response) => {
   const { name, institutionOwner, address, phoneNumber } = req.body;
