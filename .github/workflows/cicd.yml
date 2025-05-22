@@ -27,6 +27,7 @@ jobs:
             echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" > /home/ubuntu/backend/.env
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> /home/ubuntu/backend/.env
             echo "KAKAO_REDIRECT_URI=http://localhost:5173/auth/kakao/callback" >> /home/ubuntu/backend/.env
+            echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" >> /home/ubuntu/backend/.env
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /home/ubuntu/backend/.env
 
             echo "REL_DB_HOST=mysql" >> /home/ubuntu/backend/.env

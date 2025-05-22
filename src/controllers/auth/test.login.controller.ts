@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { AppDataSource } from "@/data-source";
 import { UserEntity } from "@/entity/UserEntity";
 import { sendSuccess, sendError } from "@/common/utils/responseHelper";
-import { toUserResponseDto } from "@/utils/auth/toUserResponseDto";
+import { toUserResponseDto } from "@/utils/auth/toUserResponseDTO";
 
 // 임시 토큰 발급 (테스트용)
 export const testLogin = async (req: Request, res: Response) => {
