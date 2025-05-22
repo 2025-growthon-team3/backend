@@ -1,10 +1,10 @@
 import axios from "axios";
-import { AppDataSource } from "../../data-source";
-import { UserEntity } from "../../entity/UserEntity";
+import { AppDataSource } from "@/data-source";
+import { UserEntity } from "@/entity/UserEntity";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-import { toUserResponseDto } from "../../utils/auth/toUserResponseDTO";
+import { toUserResponseDto } from "@/utils/auth/toUserResponseDto";
 import { sendError, sendSuccess } from "@/common/utils/responseHelper";
 
 dotenv.config();
@@ -74,12 +74,23 @@ export const kakaoLogin = async (req: Request, res: Response) => {
     }
 
     // 4. JWT 발급
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
-      expiresIn: "7d",
-    });
+    let token = "";
+    if (!user.isFirstLogin) {
+      token = jwt.sign(
+        {
+          userId: user.id,
+          role: user.role,
+        },
+        process.env.JWT_SECRET!,
+        {
+          expiresIn: "7d",
+        }
+      );
+    }
+
     const safeUser = await toUserResponseDto(user);
 
-    sendSuccess(res, "카카오 로그인 성공", { token, user: safeUser });
+    sendSuccess(res, "카카오 로그인 성공", { accessToken: token, user: safeUser });
   } catch (err) {
     console.error("카카오 로그인 에러:", err);
     sendError(res, "카카오 로그인 실패", err);

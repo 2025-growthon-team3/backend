@@ -24,24 +24,42 @@ export const createVolunteerApplication = async (
     const helpee = await helpeeRepo.findOne({ where: { id: helpeeId } });
 
     if (!helper || !helpee) {
-      sendError(res, "해당 helper 또는 helpee를 찾을 수 없습니다.", "EntityNotFound");
+      sendError(
+        res,
+        "해당 helper 또는 helpee를 찾을 수 없습니다.",
+        "EntityNotFound"
+      );
       return;
     }
 
-    const volunteerAppRepo = AppDataSource.getRepository(VolunteerApplicationEntity);
+    const volunteerAppRepo = AppDataSource.getRepository(
+      VolunteerApplicationEntity
+    );
 
     const newApplication = volunteerAppRepo.create({
       helper,
       helpee,
       status: "requested",
     });
+    const exists = await volunteerAppRepo.findOne({
+      where: { helper: { id: helperId }, helpee: { id: helpeeId } },
+    });
+    if (exists) {
+      sendError(res, "이미 신청된 봉사입니다.", "DuplicateApplication");
+      return;
+    }
 
     await volunteerAppRepo.save(newApplication);
 
-    sendSuccess(res, "봉사 신청 성공", {
-      helperId,
-      helpeeId,
-    }, 201);
+    sendSuccess(
+      res,
+      "봉사 신청 성공",
+      {
+        helperId,
+        helpeeId,
+      },
+      201
+    );
   } catch (err) {
     console.error("봉사 신청 중 오류:", err);
     sendError(res, "봉사 신청 중 오류 발생", err);
