@@ -1,3 +1,91 @@
+/**
+ * @swagger
+ * /helpee:
+ *   post:
+ *     summary: 헬피 등록
+ *     description: 기관 권한을 가진 사용자가 헬피(도움 대상자)를 등록합니다.
+ *     tags:
+ *       - Helpee
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - age
+ *               - birth
+ *               - gender
+ *               - institutionName
+ *               - helpRequest
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "김철수"
+ *               age:
+ *                 type: number
+ *                 example: 78
+ *               birth:
+ *                 type: string
+ *                 example: "451212"  # YYMMDD 형식
+ *               gender:
+ *                 type: string
+ *                 enum: [male, female]
+ *                 example: "male"
+ *               institutionName:
+ *                 type: string
+ *                 example: "행복복지센터"
+ *               helpRequest:
+ *                 type: string
+ *                 example: "장보기 지원이 필요합니다"
+ *               helpDetail:
+ *                 type: string
+ *                 example: "주 1회, 인근 마트에서 장보기 동행"
+ *     responses:
+ *       200:
+ *         description: 헬피 등록 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 헬피 등록 성공
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                     name:
+ *                       type: string
+ *                     age:
+ *                       type: number
+ *                     gender:
+ *                       type: string
+ *                     birthDate:
+ *                       type: string
+ *                     institution:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: number
+ *                         name:
+ *                           type: string
+ *       401:
+ *         description: 기관 권한 없음
+ *       404:
+ *         description: 기관을 찾을 수 없음
+ *       500:
+ *         description: 서버 오류
+ */
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { HelpeeEntity } from "@/entity/HelpeeEntity";

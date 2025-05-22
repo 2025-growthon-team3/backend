@@ -1,3 +1,52 @@
+/**
+ * @swagger
+ * /volunteer/{helpeeId}:
+ *   post:
+ *     summary: 봉사 신청
+ *     description: 헬퍼 권한을 가진 사용자가 헬피에게 봉사를 신청합니다. 중복 신청은 허용되지 않습니다.
+ *     tags:
+ *       - Volunteer
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: helpeeId
+ *         in: path
+ *         required: true
+ *         description: 봉사를 신청할 헬피의 ID
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       201:
+ *         description: 봉사 신청 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 봉사 신청 성공
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     helpeeId:
+ *                       type: number
+ *                       example: 3
+ *       400:
+ *         description: 잘못된 요청 (파라미터 누락 등)
+ *       401:
+ *         description: 인증 실패 또는 권한 없음
+ *       404:
+ *         description: 헬피 또는 헬퍼 정보 없음
+ *       409:
+ *         description: 중복 신청
+ *       500:
+ *         description: 서버 오류
+ */
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { VolunteerApplicationEntity } from "@/entity/VounteerApplicationEntity";

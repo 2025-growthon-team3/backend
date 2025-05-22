@@ -1,3 +1,48 @@
+/**
+ * @swagger
+ * /helpee/nearby:
+ *   get:
+ *     summary: 주변 기관의 헬피 목록 조회
+ *     description: 로그인한 사용자의 현재 위치를 기준으로 2km 이내에 있는 기관의 헬피들을 조회합니다.
+ *     tags:
+ *       - Helpee
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 2km 이내 기관 소속 헬피 목록 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 2km 이내 기관 소속 헬피 목록 조회 성공
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: number
+ *                       name:
+ *                         type: string
+ *                       age:
+ *                         type: number
+ *                       gender:
+ *                         type: string
+ *                       birthDate:
+ *                         type: string
+ *       400:
+ *         description: 사용자의 위치 정보가 없음
+ *       500:
+ *         description: 서버 오류 발생
+ */
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { InstitutionEntity } from "@/entity/InstitutionEntity";
@@ -9,11 +54,6 @@ export const getNearbyInstitutionHelpees = async (
   res: Response
 ) => {
   const userId = req.userId;
-
-  if (!userId || isNaN(Number(userId))) {
-    sendError(res, "토큰이 없거나 userId가 유효하지 않습니다.", null, 401);
-    return;
-  }
 
   try {
     const user = await AppDataSource.getRepository(UserEntity).findOne({

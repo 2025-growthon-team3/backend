@@ -1,3 +1,50 @@
+/**
+ * @swagger
+ * /helpee/{id}:
+ *   delete:
+ *     summary: 헬피 삭제
+ *     description: 기관 권한을 가진 사용자가 특정 헬피를 삭제합니다.
+ *     tags:
+ *       - Helpee
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: 삭제할 헬피의 ID
+ *     responses:
+ *       200:
+ *         description: 헬피 삭제 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 헬피 삭제 성공
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       example: 1
+ *       400:
+ *         description: 잘못된 헬피 ID
+ *       401:
+ *         description: 기관 권한 없음
+ *       404:
+ *         description: 헬피를 찾을 수 없음
+ *       500:
+ *         description: 서버 내부 오류
+ */
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { HelpeeEntity } from "@/entity/HelpeeEntity";

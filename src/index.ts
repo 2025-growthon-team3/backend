@@ -9,6 +9,9 @@ import helpeeRouter from "./routes/helpee/helpee.route";
 import institutionRouter from "./routes/institution/institution.route";
 import helperRouter from "./routes/helper/helper.route";
 import volunteerRouter from "./routes/volunteer/volunteer.route";
+import devRouter from "./routes/dev/dev.route";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger";
 
 dotenv.config();
 
@@ -16,12 +19,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:5173" }));
-
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/auth", authRouter);
 app.use("/api/helpee", helpeeRouter);
 app.use("/api/institution", institutionRouter);
-app.use("/api/helpers", helperRouter);
-app.use("/api/volunteer", volunteerRouter);
+app.use("/api/helper", helperRouter);
+app.use("/api/volunteer", volunteerRouter); 
+app.use("/api/test", devRouter);
 
 async function connectWithRetry() {
   const RETRY_INTERVAL = 3000;

@@ -1,4 +1,3 @@
-// src/data-source.ts
 import { DataSource } from "typeorm";
 import { UserEntity } from "./entity/UserEntity";
 import { HelperEntity } from "./entity/HelperEntity";
