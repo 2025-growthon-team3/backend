@@ -7,6 +7,8 @@ const institutionRouter = Router();
 
 institutionRouter.post("/", createInstitution);
 institutionRouter.get("/location", getAllInstitutions);
+
+
 institutionRouter.get("/:institutionId", getHelpeesByInstitutionId);
 
 export default institutionRouter;

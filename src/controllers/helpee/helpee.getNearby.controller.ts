@@ -1,28 +1,34 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { InstitutionEntity } from "@/entity/InstitutionEntity";
+import { UserEntity } from "@/entity/UserEntity";
 import { sendSuccess, sendError } from "@/common/utils/responseHelper";
 
 export const getNearbyInstitutionHelpees = async (
   req: Request,
   res: Response
 ) => {
-  const { latitude, longitude } = req.body;
+  const userId = req.userId;
 
-  if (isNaN(latitude) || isNaN(longitude)) {
-    sendError(
-      res,
-      "위도와 경도를 숫자로 정확히 입력해주세요.",
-      { latitude, longitude },
-      400
-    );
+  if (!userId || isNaN(Number(userId))) {
+    sendError(res, "토큰이 없거나 userId가 유효하지 않습니다.", null, 401);
     return;
   }
 
   try {
+    const user = await AppDataSource.getRepository(UserEntity).findOne({
+      where: { id: Number(userId) },
+    });
+
+    if (!user || user.latitude == null || user.longitude == null) {
+      sendError(res, "사용자의 위치 정보가 없습니다.", null, 400);
+      return;
+    }
+
+    const { latitude, longitude } = user;
+
     const institutionRepo = AppDataSource.getRepository(InstitutionEntity);
 
-    // 1. Haversine 거리 계산으로 2km 이내 기관 찾기
     const institutions = await institutionRepo
       .createQueryBuilder("institution")
       .leftJoinAndSelect("institution.helpees", "helpee")
@@ -47,7 +53,6 @@ export const getNearbyInstitutionHelpees = async (
       )
       .getMany();
 
-    // 2. 각 기관의 헬피들 추출 (헬피가 없는 기관은 제외)
     const helpees = institutions.flatMap((inst) => inst.helpees || []);
 
     sendSuccess(res, "2km 이내 기관 소속 헬피 목록 조회 성공", helpees);

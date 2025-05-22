@@ -10,10 +10,10 @@ export const getAllVolunteerHistoryByUserId = async (
   req: Request,
   res: Response
 ) => {
-  const { userId } = req.params;
+  const userId = req.userId;
 
   if (!userId || isNaN(Number(userId))) {
-    sendError(res, "유효한 userId를 입력해주세요.", null, 400);
+    sendError(res, "토큰 미존재", null, 401);
     return;
   }
 
