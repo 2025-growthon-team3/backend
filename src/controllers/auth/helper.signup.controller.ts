@@ -1,3 +1,67 @@
+/**
+ * @swagger
+ * /auth/signup/helper:
+ *   patch:
+ *     summary: 헬퍼 회원가입
+ *     description: 카카오 로그인 후 추가 정보를 입력하여 헬퍼로 등록합니다.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - kakaoId
+ *               - name
+ *               - residentNumber
+ *               - address
+ *             properties:
+ *               kakaoId:
+ *                 type: string
+ *                 example: "123456789"
+ *               name:
+ *                 type: string
+ *                 example: "홍길동"
+ *               residentNumber:
+ *                 type: string
+ *                 example: "900101-1234567"
+ *               address:
+ *                 type: string
+ *                 example: "서울특별시 강남구 역삼동"
+ *     responses:
+ *       200:
+ *         description: 헬퍼 등록 성공 및 JWT 반환
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 헬퍼 등록 성공
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *       400:
+ *         description: 필수 항목 누락 또는 잘못된 요청
+ *       404:
+ *         description: 유저 없음 또는 주소 없음
+ *       409:
+ *         description: 이미 등록된 헬퍼
+ *       500:
+ *         description: 서버 오류
+ */
+
+
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { HelperEntity } from "@/entity/HelperEntity";

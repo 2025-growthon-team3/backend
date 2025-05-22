@@ -1,4 +1,55 @@
-// src/controllers/helpee/helpee.byInstitution.controller.ts
+/**
+ * @swagger
+ * /institution/{institutionId}:
+ *   get:
+ *     summary: 기관 ID로 헬피 목록 조회
+ *     description: 기관 ID를 기반으로 해당 기관에 소속된 헬피 목록을 조회합니다.
+ *     tags:
+ *       - Helpee
+ *     parameters:
+ *       - name: institutionId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: 기관 ID
+ *     responses:
+ *       200:
+ *         description: 기관 소속 헬피 목록 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 기관 소속 헬피 목록 조회 성공
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: number
+ *                       name:
+ *                         type: string
+ *                       age:
+ *                         type: number
+ *                       gender:
+ *                         type: string
+ *                       birthDate:
+ *                         type: string
+ *       400:
+ *         description: 유효하지 않은 institutionId
+ *       404:
+ *         description: 해당 기관을 찾을 수 없음
+ *       500:
+ *         description: 서버 오류 발생
+ */
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { HelpeeEntity } from "@/entity/HelpeeEntity";

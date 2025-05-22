@@ -1,3 +1,58 @@
+/**
+ * @swagger
+ * /auth/login:
+ *   get:
+ *     summary: 카카오 로그인
+ *     description: 카카오 인가 코드를 이용하여 로그인하고 JWT 토큰을 발급받습니다.
+ *     tags:
+ *       - Auth
+ *     parameters:
+ *       - in: query
+ *         name: code
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: 카카오 인가 코드 (redirect_uri를 통해 전달받은 코드)
+ *     responses:
+ *       200:
+ *         description: 로그인 성공 및 JWT 반환
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 카카오 로그인 성공
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6...
+ *                     user:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: number
+ *                         name:
+ *                           type: string
+ *                         profileImage:
+ *                           type: string
+ *                         role:
+ *                           type: string
+ *                         isFirstLogin:
+ *                           type: boolean
+ *       400:
+ *         description: 잘못된 요청 (code 누락 등)
+ *       500:
+ *         description: 서버 내부 오류 또는 카카오 인증 실패
+ */
+  
+  
   import axios from "axios";
   import { AppDataSource } from "@/data-source";
   import { UserEntity } from "@/entity/UserEntity";
