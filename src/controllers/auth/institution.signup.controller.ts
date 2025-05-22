@@ -1,4 +1,56 @@
-// src/controllers/auth/registerInstitutionUser.controller.ts
+/**
+ * @swagger
+ * /auth/signup/institution:
+ *   patch:
+ *     summary: 기관 회원가입
+ *     description: 카카오 로그인 후 유저를 기관 사용자로 등록하고 JWT 토큰을 발급합니다.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - kakaoId
+ *               - institutionName
+ *             properties:
+ *               kakaoId:
+ *                 type: string
+ *                 example: "987654321"
+ *               institutionName:
+ *                 type: string
+ *                 example: "행복복지센터"
+ *     responses:
+ *       200:
+ *         description: 기관 회원가입 성공 및 JWT 토큰 반환
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 기관 회원가입 성공
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *       400:
+ *         description: kakaoId 또는 institutionName 누락
+ *       404:
+ *         description: 유저 또는 기관 없음
+ *       500:
+ *         description: 서버 내부 오류
+ */
+
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { UserEntity } from "@/entity/UserEntity";

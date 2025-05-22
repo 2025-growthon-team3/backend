@@ -1,5 +1,5 @@
 import express from "express";
-import { getUnmatchedHelpees } from "../../controllers/helpee.controller";
+import { getUnmatchedHelpees } from "@/controllers/helpee/helpee.controller";
 import { createHelpee } from "@/controllers/helpee/helpee.create.controller";
 import { getHelpeeById } from "@/controllers/helpee/helpee.detail.controller";
 import { deleteHelpeeById } from "@/controllers/helpee/helpee.delete.controller";

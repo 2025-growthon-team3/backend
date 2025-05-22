@@ -1,4 +1,49 @@
-// src/controllers/helper/updateHelperVerifiedTrue.ts
+/**
+ * @swagger
+ * /helper/register/{helperId}:
+ *   patch:
+ *     summary: 헬퍼 인증 처리
+ *     description: 관리자 또는 시스템이 헬퍼의 인증 상태를 true로 변경합니다.
+ *     tags:
+ *       - Helper
+ *     parameters:
+ *       - name: helperId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: 인증할 헬퍼의 ID
+ *     responses:
+ *       200:
+ *         description: 헬퍼 인증 완료
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 헬퍼 인증 완료
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       example: 12
+ *                     isVerified:
+ *                       type: boolean
+ *                       example: true
+ *       400:
+ *         description: 잘못된 helperId
+ *       404:
+ *         description: 해당 헬퍼를 찾을 수 없음
+ *       500:
+ *         description: 서버 내부 오류
+ */
+
 import { Request, Response } from "express";
 import { AppDataSource } from "@/data-source";
 import { HelperEntity } from "@/entity/HelperEntity";
