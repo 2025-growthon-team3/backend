@@ -2,8 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { AppDataSource } from "./data-source";
-import { UserEntity } from "./entity/UserEntity";
-
+import 'module-alias/register';
 import authRouter from "./routes/auth/auth.route";
 import helpeeRouter from "./routes/helpee/helpee.route";
 import institutionRouter from "./routes/institution/institution.route";
