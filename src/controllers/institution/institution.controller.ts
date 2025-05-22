@@ -18,7 +18,7 @@ export const createInstitution = async (req: Request, res: Response) => {
         {
           params: {
             address,
-            key: "AIzaSyBhdkQHt1WFsqd961XXSqK5ac-qou_5jaI",
+            key: process.env.GOOGLE_API_KEY,
           },
         }
       );
