@@ -13,7 +13,7 @@ helpeeRouter.get("/", getUnmatchedHelpees);
 helpeeRouter.post("/register", verifyToken, createHelpee);
 
 // ✅ 고정 path 먼저
-helpeeRouter.get("/nearby", getNearbyInstitutionHelpees);
+helpeeRouter.get("/nearby", verifyToken, getNearbyInstitutionHelpees);
 helpeeRouter.get("/list", getHelpeesByInstitutionName);
 
 // ✅ 나중에 동적 path

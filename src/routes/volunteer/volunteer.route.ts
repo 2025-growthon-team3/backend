@@ -7,17 +7,24 @@ import { getApprovedVolunteerApplications } from "@/controllers/volunteer/volunt
 import { volunteerRegisterHistory } from "@/controllers/volunteer/volunteer.register.history.controller";
 import { getVolunteerHistories } from "@/controllers/volunteer/volunteer.history.controller";
 import { getAllVolunteerHistoryByUserId } from "@/controllers/volunteer/volunteer.history.detail.controller";
+import { verifyToken } from "@/middleware/verifyToken";
 
 const volunteerRouter = Router();
 
 volunteerRouter.get("/approved", getApprovedVolunteerApplications);
-volunteerRouter.get("/history", getVolunteerHistories);
-volunteerRouter.post("/", createVolunteerApplication);
+volunteerRouter.get("/history/all", getVolunteerHistories);
+volunteerRouter.post("/:helpeeId", verifyToken, createVolunteerApplication);
 volunteerRouter.get("/requested", getRequestedVolunteerApplications);
-volunteerRouter.post("/history/:applicationId", volunteerRegisterHistory);
+volunteerRouter.get("/", verifyToken, getApplicationsByUserId);
+volunteerRouter.get(
+  "/history",
+  verifyToken,
+  getAllVolunteerHistoryByUserId
+);
+
+
 
 volunteerRouter.patch("/:volunteerId", updateVolunteerStatus);
-volunteerRouter.get("/:userId", getApplicationsByUserId);
-volunteerRouter.get("/history/:userId", getAllVolunteerHistoryByUserId);
+volunteerRouter.post("/history/:applicationId", volunteerRegisterHistory);
 
 export default volunteerRouter;
