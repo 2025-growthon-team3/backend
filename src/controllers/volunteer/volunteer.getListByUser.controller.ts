@@ -7,7 +7,7 @@ import { sendSuccess, sendError } from "@/common/utils/responseHelper";
 import { toGetApplicationByHelperDto } from "@/utils/volunteer/toGetApplicationByHelperDto";
 
 export const getApplicationsByUserId = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const userId = req.userId;
 
   if (!userId || isNaN(Number(userId))) {
     sendError(res, "유효한 userId를 제공해주세요.", null, 400);
