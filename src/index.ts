@@ -35,18 +35,6 @@ async function connectWithRetry() {
         res.status(200).send("OK");
       });
 
-      app.get("/users", async (req, res) => {
-        const users = await AppDataSource.getRepository(UserEntity).find();
-        res.json(users);
-      });
-
-      app.post("/users", async (req, res) => {
-        const { name } = req.body;
-        const user = AppDataSource.getRepository(UserEntity).create({ name });
-        const result = await AppDataSource.getRepository(UserEntity).save(user);
-        res.json(result);
-      });
-
       if (process.env.ENV !== "DEV") {
         const server = app.listen(3000, "0.0.0.0", () => {
           console.log("🚀 서버 실행 중: http://localhost:3000");
