@@ -15,5 +15,5 @@ export class VolunteerHistoryEntity extends BaseEntity {
   helpee!: HelpeeEntity;
 
   @Column({ type: "date" })
-  helpTime!: string;
+  helpTime!: Date;
 }
