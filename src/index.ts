@@ -1,23 +1,30 @@
 import express from "express";
 import cors from "cors";
-import authRouter from "./routes/auth.route";
+import dotenv from "dotenv";
 import { AppDataSource } from "./data-source";
 import { UserEntity } from "./entity/UserEntity";
-import dotenv from "dotenv";
-import helpeesRouter from "./routes/helper/helpees.route";
+
+import authRouter from "./routes/auth/auth.route";
+import helpeeRouter from "./routes/helpee/helpee.route";
 import institutionRouter from "./routes/institution/institution.route";
+import helperRouter from "./routes/helper/helper.route";
+import volunteerRouter from "./routes/volunteer/volunteer.route";
 
 dotenv.config();
+
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:5173" }));
 
 app.use("/api/auth", authRouter);
-app.use("/api/helpees", helpeesRouter);
+app.use("/api/helpee", helpeeRouter);
 app.use("/api/institution", institutionRouter);
+app.use("/api/helpers", helperRouter);
+app.use("/api/volunteer", volunteerRouter);
 
 async function connectWithRetry() {
-  const RETRY_INTERVAL = 3000; // ms
+  const RETRY_INTERVAL = 3000;
 
   while (true) {
     try {
@@ -28,21 +35,14 @@ async function connectWithRetry() {
         res.status(200).send("OK");
       });
 
-      app.get("/healthy", (req, res) => {
-        res.send("✅ 서버 정상 작동 중!");
-      });
-
       app.get("/users", async (req, res) => {
         const users = await AppDataSource.getRepository(UserEntity).find();
         res.json(users);
       });
 
       app.post("/users", async (req, res) => {
-        const { name, email } = req.body;
-        const user = AppDataSource.getRepository(UserEntity).create({
-          name,
-          email,
-        });
+        const { name } = req.body;
+        const user = AppDataSource.getRepository(UserEntity).create({ name });
         const result = await AppDataSource.getRepository(UserEntity).save(user);
         res.json(result);
       });
@@ -57,6 +57,7 @@ async function connectWithRetry() {
           console.log("🚀 서버 실행 중: http://localhost:3001");
         });
       }
+
       break;
     } catch (err: unknown) {
       console.error("❌ DB 연결 실패. 3초 후 재시도...", err);
