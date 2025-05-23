@@ -18,7 +18,7 @@ export const getVolunteerApplicationsByStatus = async (
 
     const requestedApplications = await volunteerRepo.find({
       where: { status },
-      relations: ["helpee"], // 필요 시 헬퍼와 헬피 정보 함께 불러옴
+      relations: ["helper", "helpee"],
       order: { createdAt: "DESC" },
     });
     const data = await Promise.all(
