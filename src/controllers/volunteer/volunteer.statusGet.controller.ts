@@ -15,10 +15,10 @@ export const getVolunteerApplicationsByStatus = async (
     const volunteerRepo = AppDataSource.getRepository(
       VolunteerApplicationEntity
     );
-    const relation = status === "requested" ? ["helper"] : ["helpee"];
+
     const requestedApplications = await volunteerRepo.find({
       where: { status },
-      relations: relation,
+      relations: ["helper", "helpee"],
       order: { createdAt: "DESC" },
     });
     const data = await Promise.all(
